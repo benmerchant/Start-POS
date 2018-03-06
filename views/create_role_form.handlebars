@@ -1,0 +1,35 @@
+<h2>Create a New Role</h2>
+{{#if errors}}
+  {{#each errors}}
+    <div class="alert alert-danger">
+      {{msg}}
+    </div>
+  {{/each}}
+{{/if}}
+<form method="POST" action="/roles/create">
+  <div class="form-group">
+    <label>Role Name</label>
+    <input type="text" name="name" class="form-control" placeholder="Role Name">
+  </div>
+  <fieldset class="form-group">
+    <legend>Salaried Position?</legend>
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="radio" class="form-check-input" name="salaryRadios" id="salary-radios-1" value="false" checked>
+        Hourly Position
+      </label>
+    </div>
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="radio" class="form-check-input" name="salaryRadios" id="salary-radios-2" value="true">
+        Salaried Position
+      </label>
+    </div>
+  </fieldset>
+  </div>
+  <div class="form-check">
+    <label class="form-check-label">Hourly Rate (0 if salaried) come back later and use jQuery to hide this field and send a 0 if the salaried button above is checked.</label>
+    <input type="text" name="rate_of_pay" class="form-control" placeholder="Rate of Pay">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
