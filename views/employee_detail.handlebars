@@ -1,0 +1,66 @@
+{{#if emp}}
+  <h2>{{title}}: {{emp.display_name}}</h2>
+  <a href="/employees/{{emp._id}}/update">Update Employee Info</a>
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+
+        <th>Name</th>
+        <td>{{emp.first_name}} {{#if emp.middle_name}} {{emp.middle_name}} {{/if}} {{emp.last_name}}</td>
+      </tr>
+      <tr>
+        <th>Employee Number</th>
+        <td>{{emp.login_number}}</td>
+      </tr>
+      <tr>
+        <th>Gender</th>
+        <td>{{emp.gender}}</td>
+      </tr>
+      <tr>
+        <th>Birth Date</th>
+        <td>{{emp.birth_date}}</td>
+      </tr>
+      <tr>
+        <th>Date Hired</th>
+        <td>{{emp.hire_date}}</td>
+      </tr>
+      {{#if emp.roles}}
+      <tr>
+        <th>Roles</th>
+        <td>
+          <table class="table table-sm inner-table">
+            <tr>
+              <th>Position</th>
+              <th>Pay Rate</th>
+            </tr>
+            {{#each emp.roles}}
+              <tr>
+                <td>{{name}}</td>
+                <td>{{rate_of_pay}}</td>
+              </tr>
+            {{/each}}
+              <tr>
+                <td colspan="2">Add a new role</td>
+              </tr>
+          </table>
+        </td>
+      </tr>
+      {{else}}
+      <tr>
+        <th>This should never display</th>
+        <td>virtually impossible</td>
+      </tr>
+      {{/if}}
+      <tr>
+        <th>Current Employee</th>
+        <td>{{#if emp.employeed}} Employeed {{else}} no longer with us {{/if}}</td>
+      </tr>
+      <tr>
+        <th>Email Address</th>
+        <td>{{emp.email}}</td>
+      </tr>
+    <tbody>
+  <table>
+{{else}}
+  <h3>No such employee. How did you even get here?</h3>
+{{/if}}

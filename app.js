@@ -13,6 +13,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongodb = require('mongodb');
 var mongoose = require('mongoose');
+var async = require('async');
 
 
 mongoose.connect('mongodb://localhost/startpos');
@@ -22,6 +23,7 @@ var db = mongoose.connection;
 var routes = require('./routes/index');
 var employees = require('./routes/employees');
 var roles = require('./routes/roles');
+var menus = require('./routes/menus');
 
 // init app
 var app = express();
@@ -48,28 +50,15 @@ app.use(session({
 
 // init Passport
 app.use(passport.initialize());
+// piggy back off of the express session set directly above
+// there is only one session
 app.use(passport.session());
 
 // explain Express Validator
-// app.use(expressValidator({
-//   errorFormatter: function(param, msg, value){
-//     var namespace = param.split('.'),
-//     root = namespace.shift(),
-//     formParam = root;
-//
-//     while(namespace.length){
-//       formParam += '[' + namespace.shift() + ']';
-//     }
-//     return{
-//       param: formParam,
-//       msg: msg,
-//       value: value
-//     }
-//   }
-// }));
 app.use(expressValidator({}));
 
 // connect Flash
+// ensures messages sent from server to client are being updated
 app.use(flash());
 
 // set some Global Vars for Flash msgs
@@ -77,7 +66,10 @@ app.use(function(req, res, next){
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error'); // different than error_msg because Flash sets its own Flash msgs
-
+  // add more globals to signifiy if user is logged in or out
+  res.locals.error = req.flash('error');
+  // if the employee exists we will be able to access it from anywhere, otherwise null
+  res.locals.user = req.user || null;
   next();
 });
 
@@ -85,6 +77,7 @@ app.use(function(req, res, next){
 app.use('/', routes); // mapped to index
 app.use('/employees', employees);
 app.use('/roles', roles);
+app.use('/menus', menus);
 
 // set the port and start the server
 app.set('port', (process.env.PORT || 3000));

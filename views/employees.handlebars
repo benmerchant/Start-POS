@@ -1,2 +1,46 @@
 <h2>Employees - Manager Menu</h2>
 <a href="/employees/create">Add a New Employee</a>
+
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    {{#if emps}}
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Emp No.</th>
+            <th>Emp Name</th>
+            <th>Position</th>
+            <th>Hire Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each emps}}
+            <tr>
+              <th scope="row"><a href="{{url}}">{{login_number}}</a></th>
+              <td>{{first_name}} {{last_name}}</td>
+              <td>
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="roleDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    See Roles
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="roleDropDown">
+                    {{#if roles}}
+                      {{#each roles}}
+                        <button class="dropdown-item" type="button">{{name}}</button>
+                      {{/each}}
+                    {{/if}}
+                  </div>
+                </div>
+              </td>
+              <td>{{hire_date}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{else}}
+    <h2>No Employees yet!</h2>
+    {{/if}}
+  </div>
+  <div class="col-md-2"></div>
+</row>

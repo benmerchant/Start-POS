@@ -1,6 +1,11 @@
 <h2>What would you like to do?</h2>
 
-<a href="/employees">Manage Employees</a><br>
-<a href="">Manage Menu</a><br>
-<a href="">View Reports</a><br><br>
-<a href="/roles">Create/Update Store Roles (bury this in menus later)</a>
+{{#if user}}
+  <a href="/employees">Manage Employees</a><br>
+  <a href="/menus">Manage Menu</a><br>
+  <a href="">View Reports</a><br><br>
+  <a href="/roles">Create/Update Store Roles (bury this in menus later)</a>
+{{else}}
+  <p>You need to Login before doing anything else...</p>
+  <a href="/employees/login"><button class='btn btn-primary btn-lg'>LOGIN</button></a>
+{{/if}}

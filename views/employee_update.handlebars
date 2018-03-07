@@ -1,0 +1,41 @@
+{{#if emp}}
+  <h2>{{title}} {{emp.display_name}}</h2>
+  <form method="POST" action="/employees/{{emp._id}}/update"><br>
+    <button class="btn btn-success" type="submit">Submit Updates</button>
+    <br><br>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Update Y or N</th>
+          <th>Field Name</th>
+          <th>Current Data</th>
+          <th>New Data</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="checkbox" name="first-name-check" value="true" class="form-check-input" id="first_name_check"></td>
+          <td><label for="first_name_input">First Name:</label></td>
+          <td>{{emp.first_name}}</td>
+          <td class='input-cell'>
+            <input type="text" name="first_name" class="form-control" id="first_name_input" disabled>
+          </td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="form-check-input" id="last_name_check"></td>
+          <td><label for="last_name_input">Last Name:</label></td>
+          <td>{{emp.last_name}}</td>
+          <td class='input-cell'>
+            <input type="text" name="last_name" class="form-control" id="last_name_input" disabled>
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+  </form>
+  <h2>You get the idea - Come back later</h2>
+{{else}}
+  <h3>Employee doesn't existYou should never be able to see this</h3>
+{{/if}}
+<script src="/scripts/jquery-3.3.1.min.js"></script>
+<script src="/scripts/emp_update.js"></script>

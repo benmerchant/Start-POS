@@ -8,3 +8,7 @@ body {
 }
 
 /* my own styles */
+/* for inherited tables */
+table.inner-table{
+  border: 1px solid black;
+}

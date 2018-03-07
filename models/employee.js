@@ -12,6 +12,10 @@ var EmployeeSchema = mongoose.Schema({
     unique: true,
     index: true
   },
+  email:{
+    type: String,
+    require: true
+  },
   password: {
     type: String,
     required: true
@@ -60,7 +64,7 @@ var EmployeeSchema = mongoose.Schema({
     required: true
   }, // send with the form
   roles: [{
-    role_id: ObjectId,
+    _id: ObjectId,
     name: String,
     salaried: Boolean,
     rate_of_pay: Number,
@@ -77,3 +81,45 @@ var EmployeeSchema = mongoose.Schema({
   }
 
 });
+
+// Virtual for the url of a specific employee
+// use this property in templates to view an entire employee record
+EmployeeSchema.virtual('url').get(function(){
+  return '/employees/'+this.id;
+});
+
+var Employee = module.exports = mongoose.model('Employee', EmployeeSchema);
+
+module.exports.createEmployee = function(newEmployee, callback){
+  bcrypt.genSalt(10, function(err, salt){
+    bcrypt.hash(newEmployee.password, salt, function(err, hash){
+      // replace password string with hash string
+      newEmployee.password = hash;
+      // console.log(newEmployee);
+      newEmployee.save(callback);
+    });
+  });
+};
+
+// you could place these in the route
+// or encapsulate them in the model
+module.exports.getEmployeeByEmployeeNumber = function(login_number, callback){
+  // 3: working here so far
+  console.log('hey 3');
+  var query = {login_number: login_number};
+  Employee.findOne(query, callback); // mongoose method
+};
+
+//
+module.exports.getEmployeeById = function(id, callback){
+  Employee.findById(id, callback);
+};
+
+module.exports.comparePassword = function(candidatePassword, hash, callback){
+  console.log('hey 6 - OR: checking password');
+  bcrypt.compare(candidatePassword, hash, function(err, isMatch){
+    if(err) throw err;
+
+    callback(null, isMatch);
+  });
+}; // now we need to serialize and deserialize in the route
