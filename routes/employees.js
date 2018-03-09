@@ -181,34 +181,25 @@ router.get('/:id/update',function(req,res,next){
   });
 });
 // PUT request to update Employee Info
-router.post('/:id/update',[
-  check('first_name').isLength({min:1}).withMessage('Must enter a First Name'),
-  check('first-name-check').exists()
-  // only checking first name.
-  // how to prevent the form from sending if box not checked
-],(req,res,next)=>{
-  // get the validation result
-  const errors = validationResult(req);
-  // check for validation errors
-  if(!errors.isEmpty()){
-    console.log(errors.array()); // Jesus! finally. There is no tutorial for new API yet
-    // id like to have this in the role model
-    res.send(errors.array());
-  } else {
-    const checkData = matchedData(req);
-    console.log('data checked and passed');
-    console.log(checkData);
-    console.log(req.params);
-    var query = Employee.findById(req.params.id);
-    query.exec(function(err,doc){
-      if(err) throw Error;
-      console.log('Employee to be updated PUT');
-      console.log(doc);
-      console.log(req.params);
-      res.redirect('/employees/'+req.params.id);
-    });
-  }
+router.post('/:id/update',(req,res)=>{
+  // dropped the validator for this one
+  // we'll hardcode while we wait on a reply from devs on gitub
+  // I DONT EVEN NEED THIS HERE Employee.getEmployeeById(req.params.id,function(err, employee){
+    // just designed my own callback and i'm not sure how?
+    // console.log(employee);
+    // okay this is dangerous, but i'm just going to use the input
+    // directly from the requst body and store it in the DB. i know, i know
+    // This is REALLY VERY STUPID!
+  var query = Employee.findOneAndUpdate({_id:req.params.id},req.body);
+  query.exec((err,doc)=>{
+    if(err) throw Error;
+    console.log('New updated Employee document');
+    console.log(doc);
+    // another dumb hack. need to work on my routes
+    res.redirect('/employees/'+req.params.id);
+  }); // it's dumb, but it works.
 });
+
 // route to delete an employee
 // note, this doesn't delete the employee, it merely changes employeed: false
 // this way it wont show up in the Employees view
