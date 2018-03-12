@@ -20,7 +20,7 @@ router.get('/', function(req, res){
   const query = Employee.find({employeed: true}); // mongoose method
   query.exec(function(err,docs){
     if(err) throw Error;
-    console.log(docs);
+    // console.log(docs);
     res.render('employees',{
       emps: docs
     });
@@ -181,24 +181,39 @@ router.get('/:id/update',function(req,res,next){
   });
 });
 // PUT request to update Employee Info
-router.post('/:id/update',(req,res)=>{
-  // dropped the validator for this one
-  // we'll hardcode while we wait on a reply from devs on gitub
-  // I DONT EVEN NEED THIS HERE Employee.getEmployeeById(req.params.id,function(err, employee){
-    // just designed my own callback and i'm not sure how?
-    // console.log(employee);
-    // okay this is dangerous, but i'm just going to use the input
-    // directly from the requst body and store it in the DB. i know, i know
-    // This is REALLY VERY STUPID!
-  var query = Employee.findOneAndUpdate({_id:req.params.id},req.body);
-  query.exec((err,doc)=>{
-    if(err) throw Error;
-    console.log('New updated Employee document');
-    console.log(doc);
-    // another dumb hack. need to work on my routes
-    res.redirect('/employees/'+req.params.id);
-  }); // it's dumb, but it works.
+router.post('/:id/update',[
+  // got an answer from github on how to deal with my dynamic jQuery form
+  // just make some fields optional
+  check('first_name').isLength({min:1}).withMessage('Must enter a first name').optional(),
+  check('last_name').isLength({min:1}).withMessage('Must enter a last name').optional()
+], (req,res,next)=>{
+  const errors = validationResult(req);
+
+  // is there a better way to re-send employee doc to the page to generate fields?
+  // perhaps send the doc via req
+  if(!errors.isEmpty()){
+    console.log(errors.array());
+    var query = Employee.findById(req.params.id);
+    query.exec((err,doc)=>{
+      if(err) throw Error;
+
+      res.render('employee_update',{
+        title: "Update employee info",
+        errors: errors.array(),
+        emp: doc
+      });
+    });
+  } else {
+    const checkData = matchedData(req);
+    console.log(checkData);
+    var query = Employee.findOneAndUpdate({_id:req.params.id},checkData);
+    query.exec((err,doc)=>{
+      if(err) throw Error;
+      res.redirect('/employees/'+req.params.id);
+    });
+  }
 });
+
 
 // route to delete an employee
 // note, this doesn't delete the employee, it merely changes employeed: false

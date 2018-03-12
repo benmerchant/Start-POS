@@ -1,5 +1,12 @@
 {{#if emp}}
   <h2>{{title}} {{emp.display_name}}.</h2>
+  {{#if errors}}
+    {{#each errors}}
+      <div class="alert alert-danger">
+        {{msg}}
+      </div>
+    {{/each}}
+  {{/if}}
   <form method="POST" action="/employees/{{emp._id}}/update"><br>
     <button class="btn btn-success" type="submit">Submit Updates</button>
     <br><br>
