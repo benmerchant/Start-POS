@@ -1,0 +1,35 @@
+<link href="/styles/menu-heading.css" rel="stylesheet">
+<h2>Menu Management</h2>
+<hr>
+<h4>Add a Menu Heading</h4>
+{{#if errors}}
+  {{#each errors}}
+    <div class="alert alert-danger">{{msg}}</div>
+  {{/each}}
+{{/if}}
+<form action="/menus/create-heading" method="POST">
+  <div class="form-group row">
+    <label class="col-sm-3 col-form-label">Menu Heading</label>
+    <div class="form-group row">
+      <input type="text" class="form-control" name="menu_heading" placeholder="New Menu Heading">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<hr>
+<h4>Menu Headings</h4>
+{{#if menus}}
+  <div class="heading-list">
+  {{#each menus}}
+    <div class="each-heading" id="{{_id}}">{{menu_heading}}</div>
+  {{/each}}
+  </div>
+{{else}}
+  <div class="alert alert-danger">
+    The system doesn't have any menu headings yet.<br>
+    You must enter headings before you can enter any items.
+  </div>
+{{/if}}
+<p>---Click a heading to delete---<br>
+  ############# NOT IMPLEMENTED YET #############<br>
+  (*Note: if there are any items with chosen heading, you will not be able to delete that heading. Instead a list of all the items will be shown for reassignment.)</p>

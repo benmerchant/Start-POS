@@ -10,6 +10,9 @@ const { matchedData, sanitize } = require('express-validator/filter');
 var Employee = require('../models/employee');
 // include the roles model to get roles for create_role_form
 var Role = require('../models/role');
+// include this model for deactivating an employee
+// maybe move this later when we clean up the routes
+var Archived_employee = require('../models/archived_employee');
 
 
 // landing pages for all things a manager can do with employee data
@@ -102,7 +105,7 @@ router.post('/create',[
       display_name: displayName,
       pin_num: empPin,
       first_name: checkData.first_name,
-      middle_name: checkData.middle_name,
+      // middle_name: checkData.middle_name,
       last_name: checkData.last_name,
       ssn: checkData.ssn,
       gender: checkData.genderSelect,
@@ -117,7 +120,7 @@ router.post('/create',[
       employeed: true // if youre hired today, you must be employeed logic AF
     });
     // console.log(newEmployee);
-    // method store in the Employee Model
+    // method stored in the Employee Model
     Employee.createEmployee(newEmployee, function(err, employee){
       if(err) throw err;
       console.log(employee);
@@ -131,15 +134,73 @@ router.post('/create',[
   }
 });
 
+router.get('/deactivate',(req,res)=>{
+  const query = Employee.find({});
+  query.exec((err,docs)=>{
+    if(err) throw Error;
+    console.log(docs);
+    res.render('employee_deactivate',{
+      emps: docs
+    });
+  });
+
+});
+
+
+// you can get to this POST one of two ways
+// after selecting an employee from the vertical menu
+// or by clicking the link on an employee detail page
+router.post('/deactivate/:id',(req,res)=>{
+  // req.params only includes the ID of the emp passed thru POST in the URL
+  const empID = req.params.id;
+  // find employee in question
+  const query = Employee.findById(empID);
+  query.exec((err,doc)=>{
+    if(err) throw Error;
+    console.log('employee to be archived');
+    console.log(doc);
+    const newArchived_employee = new Archived_employee({
+      _id: doc.login_number,
+      email: doc.email,
+      password: doc.password,
+      first_name: doc.first_name,
+      last_name: doc.last_name,
+      ssn: doc.ssn,
+      birth_date: doc.birth_date,
+      gender: doc.gender,
+      hire_date: doc.hire_date,
+      final_day: new Date(), // makes today the last day
+      roles: doc.roles,
+      employeed: false
+    });
+    Archived_employee.archiveEmployee(newArchived_employee,(err,archived_employee)=>{
+      if(err) throw err;
+      console.log(archived_employee);
+      // employeed added to archived_employee collection
+      // now remove it from employee collection
+      const removeQuery = Employee.remove({_id: empID});
+      removeQuery.exec((err)=>{
+        if(err) throw err;
+        console.log('employee removed from active DB');
+        req.flash('success_msg', 'Employee successfully deactivated');
+        res.redirect('/employees');
+      });
+    }); // not ACID compliant......
+  });
+});
+
+
 
 // create a logout route
-router.get('/logout', function(req, res){
+router.get('/logout', (req, res)=>{
   req.logout();
   // you might not want this notification when someone just goes to your url
   req.flash('success_msg', 'You are logged out');
 
   res.redirect('/employees/login');
 });
+
+
 //////////////////////////////////////////
 ///// why does logout work here but not below????
 //////////////////////////////////////////

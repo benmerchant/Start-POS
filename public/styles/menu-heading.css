@@ -1,0 +1,19 @@
+div.heading-list{
+  width:300px;
+  height:auto; /* change to desired number of px for a scroll bar*/
+  overflow-y: auto;
+  /* background-color: black; */
+  /* how to center this? */
+}
+
+div.each-heading{
+  background-color:rgb(238, 238, 238);
+  color:black;
+  display:block;
+  padding:12px;
+  text-decoration:none;
+}
+
+div.each-heading:hover{
+  background-color:rgb(51, 153, 255);
+}

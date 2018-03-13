@@ -37,7 +37,8 @@ var EmployeeSchema = mongoose.Schema({
   },
   ssn: {
     type: String, // need to find out how to search encrypted data
-    required: true
+    required: true,
+    unique: true // forgot to make this unique initially
   },
   birth_date: {
     type: Date,
@@ -56,9 +57,7 @@ var EmployeeSchema = mongoose.Schema({
     type: String,
     required: true
   }, // send with the form
-  final_day: {
-    type: String
-  },
+  // removed final_day. doesn't make sense in the context of new design
   employeed: {
     type: Boolean,
     required: true

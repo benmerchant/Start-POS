@@ -4,6 +4,9 @@ var router = express.Router();
 const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
 
+const Menu = require('../models/menu');
+const Item = require('../models/item');
+
 router.get('/',(req,res)=>{
   // check to see if logged in, if not, redirect to login
   if(req.user){
@@ -13,13 +16,121 @@ router.get('/',(req,res)=>{
   } // great job, ben. first try
 });
 
-router.get('/create-item',(req,res)=>{
-  // COME BACK: check to see if logged in
-  res.render('create-item-form');
+router.get('/manage',(req,res)=>{
+  const allHeadingsQuery = Menu.find({});
+  allHeadingsQuery.exec((err,docs)=>{
+    if(err) throw err;
+    res.render('menu-management',{
+      menus: docs
+    });
+  });
 });
 
-router.post('/create-item',(req,res)=>{
-  res.send('create item POST not ready');
+router.post('/create-heading',[
+  check('menu_heading').isLength({min:1}).withMessage('You didn\'t enter a name for the new heading')
+],(req,res)=>{
+  const errors = validationResult(req);
+  if(!errors.isEmpty()){
+    const allHeadingsQuery = Menu.find({});
+    allHeadingsQuery.exec((err,docs)=>{
+      res.render('menu-management',{
+        errors: errors.array(),
+        menus: docs
+    });
+
+    });
+  } else {
+    const checkData = matchedData(req);
+    // make sure that heading doesn't already exist before going any further
+    const headingQuery = Menu.findOne({menu_heading: checkData.menu_heading});
+    headingQuery.exec((err,menu)=>{
+      if (err) throw err;
+      if(menu){
+        // if there is a document with the same menu_heading
+        const allHeadingsQuery = Menu.find({});
+        allHeadingsQuery.exec((err,docs)=>{
+          res.render('menu-management',{
+            errors: [{ msg: 'That menu heading name already exists' }],
+            menus: docs
+          });
+        });
+      } else {
+        // if there is no heading by that name already in the collection
+        const newMenu = new Menu({
+          menu_heading: checkData.menu_heading
+        });
+
+        // store new menuheading in the db
+        Menu.createMenuHeading(newMenu,(err,menu)=>{
+          if(err) throw err;
+        });
+        req.flash('success_msg', 'Successfully added a new Menu Heading');
+        res.redirect('/menus/manage');
+      }
+    });
+  }
+});
+
+router.get('/create-item',(req,res)=>{
+  // COME BACK: check to see if logged in
+  Menu.getAllHeadings({},(err,headings)=>{
+    if(err) throw err;
+    // console.log(headings);
+    res.render('create-item-form',{
+      headings: headings
+    });
+  });
+
+});
+
+router.get('/items',(req,res)=>{
+  Item.getAllItems({},(err,allItems)=>{
+    if(err) throw err;
+    res.render('items-view-all',{
+      items: allItems
+    });
+  });
+
+});
+
+
+router.post('/create-item',[
+  check('name').isLength({min:1}).withMessage('Must enter a name for the item'),
+  check('price').isDecimal().withMessage('Must enter a number for the price'),
+  check('description').isLength({min:0}).withMessage('It would be difficult to ever see this error'),
+  check('menu_heading').exists().withMessage('No menu heading THIS SHOULD NEVER APPEAR. If so, contact DB admin')
+],(req,res,next)=>{
+  console.log(req.body);
+  const errors = validationResult(req);
+  if(!errors.isEmpty()){
+    Menu.getAllHeadings({},(err,headings)=>{
+      if(err) throw err;
+      res.render('create-item-form',{
+        errors: errors.array(),
+        headings: headings
+      });
+    });
+  } else {
+    const checkData = matchedData(req);
+    const headingArray = checkData.menu_heading.split(" - ");
+    const menuHeadingName = headingArray[0];
+    const menuHeadingID = headingArray[1];
+    var newItem = new Item({
+      name: checkData.name,
+      price: checkData.price,
+      menu: {
+        _id: menuHeadingID,
+        menu_heading: menuHeadingName
+      }
+    });
+
+    Item.createItem(newItem,(err,item)=>{
+      if(err) throw err;
+
+      req.flash('success_msg', 'Item successfully added to the menu.');
+      res.redirect('/menus/items');
+    });
+  }
 });
 
 

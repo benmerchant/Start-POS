@@ -1,0 +1,8 @@
+<h2>view all items</h2>
+{{#if items}}
+  {{#each items}}
+    <button>{{name}}</button>
+  {{/each}}
+{{else}}
+  <div class="alert alert-danger">You have 0 items in your system.</div>
+{{/if}}

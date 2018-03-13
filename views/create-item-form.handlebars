@@ -1,1 +1,42 @@
-<h2>Add a new item to the menu<h2>
+<h2>Add a new item to the menu</h2>
+<br>
+  {{#if errors}}
+    {{#each errors}}
+      <div class="alert alert-danger">
+        {{msg}}
+      </div>
+    {{/each}}
+  {{/if}}
+  <form class="item-form" action="/menus/create-item" method="POST">
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Item Name</label>
+      <div class="form-group row">
+        <input type="text" class="form-control" name="name" placeholder="Name of the Item">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Price</label>
+      <div class="form-group row">
+        <input type="text" class="form-control" name="price" placeholder="How much does it cost?">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Description</label>
+      <div class="form-group row">
+        <textarea rows="4" cols="35"class="form-control" name="description" placeholder="Optional description of the item"></textarea>
+      </div>
+    </div>
+    {{#if headings}}
+    <div class="form-group row">
+      <label for="headings">Menu</label>
+      <select class="form-control" id="headings" name="menu_heading">
+        {{#each headings}}
+          <option>{{menu_heading}} - {{_id}}</option>
+        {{/each}}
+      </select>
+    </div>
+    {{else}}
+      <div class="killButtonIfExists">No Menu headings yet. You can not continue.</div><br>
+    {{/if}}
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>

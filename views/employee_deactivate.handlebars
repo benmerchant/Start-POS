@@ -1,0 +1,19 @@
+<link href="/styles/deactivate-emp-styles.css" rel="stylesheet">
+
+<h2>Deactivate an Employee</h2>
+<br><br>
+
+
+<div class="employee-menu">
+  <div href="" class="active each-emp">Choose an employee</div>
+  {{#if emps}}
+    {{#each emps}}
+      <div href="" class="each-emp employee-2b-removed" id="{{_id}}">{{first_name}} {{last_name}}</div>
+    {{/each}}
+  {{else}}
+    <p>error loading employees</p>
+  {{/if}}
+</div>
+<!-- <div class="trythis">hey hey hey hey</div> -->
+<script src="/scripts/jquery-3.3.1.min.js"></script>
+<script src="/scripts/deactivate-emp.js"></script>

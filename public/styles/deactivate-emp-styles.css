@@ -1,0 +1,27 @@
+/*
+unaplogetically taken from
+https://www.w3schools.com/howto/howto_css_vertical_menu.asp
+*/
+
+.employee-menu{
+  width: 325px;
+  height: 300px;
+  overflow-y: auto;
+}
+
+.each-emp{
+  background-color: #eee;
+  color: black;
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.employee-menu div:hover{
+  background-color: #ccc;
+}
+
+.employee-menu div.active{
+  background-color: #4CAF50;
+  color: white;
+}

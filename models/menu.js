@@ -9,3 +9,13 @@ const MenuSchema = mongoose.Schema({
     index: true
   }
 });
+
+var Menu = module.exports = mongoose.model('Menu', MenuSchema);
+
+module.exports.createMenuHeading = (newMenuHeading, callback)=>{
+  newMenuHeading.save(callback);
+};
+
+module.exports.getAllHeadings = (queryObj,callback)=>{
+  Menu.find({}).exec(callback);
+};
