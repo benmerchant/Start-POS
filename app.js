@@ -1,32 +1,33 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var exphbs = require('express-handlebars');
-var expressValidator = require('express-validator');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const exphbs = require('express-handlebars');
+const expressValidator = require('express-validator');
 // OF COURSE there is a new express validator API
 const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
-var flash = require('connect-flash');
-var session = require('express-session');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var mongodb = require('mongodb');
-var mongoose = require('mongoose');
-var async = require('async');
+const flash = require('connect-flash');
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const mongodb = require('mongodb');
+const mongoose = require('mongoose');
+const async = require('async');
 
 
 mongoose.connect('mongodb://localhost/startpos');
 var db = mongoose.connection;
 
 // routes
-var routes = require('./routes/index');
-var employees = require('./routes/employees');
-var roles = require('./routes/roles');
-var menus = require('./routes/menus');
+const routes = require('./routes/index');
+const employees = require('./routes/employees');
+const roles = require('./routes/roles');
+const menus = require('./routes/menus');
+const schedules = require('./routes/schedules');
 
 // init app
-var app = express();
+const app = express();
 
 // set the view engine
 app.set('views', path.join(__dirname, 'views')); // set the views folder
@@ -78,6 +79,7 @@ app.use('/', routes); // mapped to index
 app.use('/employees', employees);
 app.use('/roles', roles);
 app.use('/menus', menus);
+app.use('/schedules', schedules);
 
 // set the port and start the server
 app.set('port', (process.env.PORT || 3000));

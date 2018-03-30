@@ -21,19 +21,27 @@
       </thead>
       <tbody>
         <tr>
-          <td><input type="checkbox" name="first-name-check" value="true" class="form-check-input" id="first_name_check"></td>
+          <td>
+            <div class="form-check">
+              <input type="checkbox" name="first-name-check" value="true" class="form-check-input" id="first_name_check">
+            </div>
+          </td>
           <td><label for="first_name_input">First Name:</label></td>
           <td>{{emp.first_name}}</td>
-          <td class='input-cell'>
-            <input type="text" name="first_name" class="form-control" id="first_name_input" disabled>
+          <td  class="input-cell">
+            <div>
+                <input type="text" name="first_name" class="form-control" id="first_name_input" disabled>
+            </div>
           </td>
         </tr>
         <tr>
           <td><input type="checkbox" class="form-check-input" id="last_name_check"></td>
           <td><label for="last_name_input">Last Name:</label></td>
           <td>{{emp.last_name}}</td>
-          <td class='input-cell'>
-            <input type="text" name="last_name" class="form-control" id="last_name_input" disabled>
+          <td  class="input-cell">
+            <div>
+                <input type="text" name="last_name" class="form-control" id="last_name_input" disabled>
+            </div>
           </td>
         </tr>
       </tbody>

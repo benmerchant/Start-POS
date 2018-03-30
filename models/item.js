@@ -53,9 +53,8 @@ module.exports.getItemById = (id,cb)=>{
 module.exports.getAllItems = (queryObj,cb)=>{
   Item.find(queryObj).exec(cb);
 };
-
-// module.exports.getItemsByMenu = (heading,cb)=>{
-//   Items.find({
-//     menu.menu_heading: heading
-//   });
-// };
+ 
+// need to get all items for a particular menu heading
+module.exports.getItemsByHeadingId = (queryObj,cb)=>{
+  Item.find(queryObj).exec(cb);
+};

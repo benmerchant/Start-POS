@@ -70,13 +70,13 @@ var EmployeeSchema = mongoose.Schema({
     default: Boolean // this will help in-app with drop down boxes
   }], // array of objects
   availability: {
-    monday: { start_time: Number, end_time: Number, available: Boolean },
-    tuesday: { start_time: Number, end_time: Number, available: Boolean },
-    wednesday: { start_time: Number, end_time: Number, available: Boolean },
-    thursday: { start_time: Number, end_time: Number, available: Boolean },
-    friday: { start_time: Number, end_time: Number, available: Boolean },
-    saturday: { start_time: Number, end_time: Number, available: Boolean },
-    sunday: { start_time: Number, end_time: Number, available: Boolean }
+    monday: { start_time: String, end_time: String, available: { type:Boolean, default:false} },
+    tuesday: { start_time: String, end_time: String, available: { type:Boolean, default:false} },
+    wednesday: { start_time: String, end_time: String, available: { type:Boolean, default:false} },
+    thursday: { start_time: String, end_time: String, available: { type:Boolean, default:false} },
+    friday: { start_time: String, end_time: String, available: { type:Boolean, default:false} },
+    saturday: { start_time: String, end_time: String, available: { type:Boolean, default:false} },
+    sunday: { start_time: String, end_time: String, available: { type:Boolean, default:false} }
   }
 
 });
@@ -122,3 +122,12 @@ module.exports.comparePassword = function(candidatePassword, hash, callback){
     callback(null, isMatch);
   });
 }; // now we need to serialize and deserialize in the route
+
+module.exports.updateEmployee = (id,updateObj,cb)=>{
+  Employee.findOneAndUpdate(
+    {_id:id},
+    updateObj,
+    {new:true}, // doesn't return updated doc by default
+    cb
+  );
+};

@@ -20,9 +20,9 @@ $(document).ready(function(){
   $('input.form-check-input').click(function(){
     if(this.checked){ // if the box is checked after  we click it
       // disable the corresponding input field
-      $(this).parent().siblings('.input-cell').children('.form-control').prop('disabled', false);
+      $(this).parent().parent().siblings('.input-cell').children('div').children('.form-control').prop('disabled', false);
     } else {
-      $(this).parent().siblings('.input-cell').children('.form-control').prop('disabled', true);
+      $(this).parent().parent().siblings('.input-cell').children('div').children('.form-control').prop('disabled', true);
     }
     // just wasted 35 minutes because i was using strings instead of booleans
   });

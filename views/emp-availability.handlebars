@@ -1,0 +1,85 @@
+{{#if emp}}
+  <h2>{{emp.display_name}}'s Availability</h2>
+  <h1>BROKEN</h1>
+  <hr>
+  {{#if errors}}
+    {{#each errors}}
+      <div class="alert alert-danger">
+        {{msg}}
+      </div>
+    {{/each}}
+  {{/if}}
+  <form method="POST" action"/employees/change-availability/{{emp.id}}">
+    <button type="sumbit" class="btn btn-primary">
+      Update Availability
+    </button><br><br>
+    <div class="form-check">
+      <input class="form-check-input" value="" type="checkbox" name="open_avail" id="avail-check">
+      <label class="form-check-label" for="avail-check">Open Availability</label>
+    </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Day</th>
+        <th scope="col">Available</th>
+        <th scope="col">Start</th>
+        <th scope="col">End</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each availability}}
+        <tr>
+          <th scope="row">{{@key}}</th>
+          <td>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="{{@key}}_bool"
+                {{#if this.available}} checked {{/if}}>
+            </div>
+          </td>
+          <td class="input-cell">
+            <div class="form-group ">
+              <input class="form-control start-input" name="{{@key}}_start"
+                {{#if this.available}}
+                  type="time"
+                  value="{{this.start_time}}"
+                {{else}}
+                  type="text"
+                  value="off work"
+                  disabled
+                {{/if}}
+              >
+            </div>
+          </td>
+          <td class="input-cell">
+            <div class="form-group ">
+              <input class="form-control end-input" name="{{@key}}_end"
+                {{#if this.available}}
+                  type="time"
+                  value="{{this.end_time}}"
+                {{else}}
+                  type="text"
+                  value="off work"
+                  disabled
+                {{/if}}
+              >
+            </div>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+
+  </table>
+</form>
+{{else}}
+  <h4>Something when terribly wrong. Conatct DB admin with Error code: "IDK_AVAIL"</h4>
+{{/if}}
+
+<!-- RESUABLE CODE YAY! -->
+<!-- the code from the emp_update.js should work here after adding some classes to our template -->
+<!-- well, kinda, the employee update template wasnt bootstrap compliant had to fix it -->
+<script src="/scripts/jquery-3.3.1.min.js" type="text/javascript"></script>
+<!-- <script src="/scripts/emp_update.js" type="text/javascript"></script> -->
+<script src="/scripts/emp_availability.js" type="text/javascript"></script>
+<!-- at the end of the day had to write a fresh script
+reusing all of the old code, but had it was conflicting with what this
+template need functionality wise -->

@@ -124,13 +124,14 @@ router.post('/create',[
     Employee.createEmployee(newEmployee, function(err, employee){
       if(err) throw err;
       console.log(employee);
-    });
-    // success msg
-    // in order for this msg to show, we need a placeholder in our layout template
-    req.flash('success_msg', 'Successfully added a new employee');
+      // success msg
+      // in order for this msg to show, we need a placeholder in our layout template
+      req.flash('success_msg', 'Successfully added a new employee');
 
-    // reidrect
-    res.redirect('/employees');
+      // reidrect
+      res.redirect('/employees');
+    });
+
   }
 });
 
@@ -144,6 +145,142 @@ router.get('/deactivate',(req,res)=>{
     });
   });
 
+});
+
+router.get('/change-availability/:id',(req,res)=>{
+  Employee.getEmployeeById(req.params.id,(err,doc)=>{
+    if(err) throw err;
+    console.log(doc);
+    // during handlebar iteration, getting $init, toObject, toJSON from mongoose
+    // reform the avaiblity object
+    // console.log(doc.availability);
+    let days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+    let newAvailabilityObject = {};
+    for(let prop in doc.availability){
+      if(days.includes(prop)){
+        newAvailabilityObject[prop] = doc.availability[prop];
+      }
+    }
+    console.log(newAvailabilityObject);
+
+
+
+    res.render('emp-availability',{
+      emp : doc,
+      availability: newAvailabilityObject
+    });
+
+  });
+});
+
+router.post('/change-availability/:id',[
+  check('monday_bool').exists().withMessage('Monday checkbox error').optional(),
+  check('tuesday_bool').exists().withMessage('Tuesday checkbox error').optional(),
+  check('wednesday_bool').exists().withMessage('Wednesday checkbox error').optional(),
+  check('thursday_bool').exists().withMessage('Thursday checkbox error').optional(),
+  check('friday_bool').exists().withMessage('Friday checkbox error').optional(),
+  check('saturday_bool').exists().withMessage('Saturday checkbox error').optional(),
+  check('sunday_bool').exists().withMessage('Sunday checkbox error').optional(),
+  check('monday_start').isLength({ min: 5 }).withMessage('Monday start time ERROR').optional(),
+  check('tuesday_start').isLength({ min: 5 }).withMessage('Tueday start time ERROR').optional(),
+  check('wednesday_start').isLength({ min: 5 }).withMessage('Wednesday start time ERROR').optional(),
+  check('thursday_start').isLength({ min: 5 }).withMessage('Thursday start time ERROR').optional(),
+  check('friday_start').isLength({ min: 5 }).withMessage('Friday start time ERROR').optional(),
+  check('saturday_start').isLength({ min: 5 }).withMessage('Saturday start time ERROR').optional(),
+  check('sunday_start').isLength({ min: 5 }).withMessage('Sunday start time ERROR').optional(),
+  check('monday_end').isLength({ min: 5 }).withMessage('Monday end time ERROR').optional(),
+  check('tuesday_end').isLength({ min: 5 }).withMessage('Tueday end time ERROR').optional(),
+  check('wednesday_end').isLength({ min: 5 }).withMessage('Wednesday end time ERROR').optional(),
+  check('thursday_end').isLength({ min: 5 }).withMessage('Thursday end time ERROR').optional(),
+  check('friday_end').isLength({ min: 5 }).withMessage('Friday end time ERROR').optional(),
+  check('saturday_end').isLength({ min: 5 }).withMessage('Saturday end time ERROR').optional(),
+  check('sunday_end').isLength({ min: 5 }).withMessage('Sunday end time ERROR').optional()
+  // min length for times due to bootstrap formatting of the string dates
+  // format '00:00' military time. 5 chars including the colon
+],(req,res)=>{
+  console.log(req.body);
+  const errors = validationResult(req);
+  let days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+  if(!errors.isEmpty()){
+    // console.log(errors.array());
+    Employee.getEmployeeById(req.params.id,(err,doc)=>{
+      if(err) throw err;
+      let newAvailabilityObject = {};
+      for(let prop in doc.availability){
+        if(days.includes(prop)){
+          newAvailabilityObject[prop] = doc.availability[prop];
+        }
+      }
+      // for sticky form
+      // for(let prop in req.body){
+      //   if(Number.isInteger(parseInt(req.body[prop]))){
+      //     console.log(req.body[prop]);
+      //   }
+      //
+      // }
+      res.render('emp-availability',{
+        emp : doc,
+        availability: newAvailabilityObject,
+        errors: errors.array()
+      });
+
+    });
+  }else{ // no errors
+    const checkData = matchedData(req);
+    let availabilityOut = {};
+    // console.log(checkData.monday_bool);
+
+    // loop through each day and check if the box is checked
+    days.forEach((day)=>{
+      let day_bool = day + '_bool';
+      if(checkData[day_bool]){
+        // only set _start and _end unless box is checked
+        let day_start = day + '_start';
+        let day_end = day + '_end';
+        console.log(day + ': ' +checkData[day_start] +' to ' +checkData[day_end]);
+        availabilityOut[day] = {available: true};
+        availabilityOut[day].start_time = checkData[day_start];
+        availabilityOut[day].end_time = checkData[day_end];
+      } else {
+        console.log('Emp is not available on '+ day);
+        availabilityOut[day_bool] = {available: true};
+      }
+    });
+
+    let updateObject = {availability: availabilityOut};
+    // console.log(updateObject);
+    Employee.updateEmployee(req.params.id,updateObject,(err,doc)=>{
+      if(err) throw err;
+      console.log('updated employee available');
+      console.log(doc);
+      res.redirect('/employees/'+req.params.id);
+    });
+    // availabilityOut = {};
+    // if(checkData.monday_bool){
+    //   availabilityOut.monday = { available: true};
+    //   availabilityOut.monday.start_time =  checkData.monday_start;
+    //   availabilityOut.monday.end_time =  checkData.monday_end;
+    //
+    //   var updateObject = {availability: availabilityOut}
+    //   Employee.updateEmployee(req.params.id,updateObject,(err,doc)=>{
+    //     if(err) throw err;
+    //     console.log('updated employee available');
+    //     console.log(doc);
+    //     res.send('update this');
+    //   });
+    // } else {
+    //   availabilityOut.monday = { available: false };
+    //
+    //   var updateObject = {availability: availabilityOut};
+    //   console.log(updateObject);
+    //   Employee.updateEmployee(req.params.id,updateObject,(err,doc)=>{
+    //     if(err) throw err;
+    //     console.log('updated employee unavailable');
+    //     console.log(doc);
+    //     res.send('update this unavailable on monday');
+    //   });
+    // }
+  }
 });
 
 
@@ -267,6 +404,8 @@ router.post('/:id/update',[
   } else {
     const checkData = matchedData(req);
     console.log(checkData);
+    // move to the model
+    // just wrote for availability, should work here too
     var query = Employee.findOneAndUpdate({_id:req.params.id},checkData);
     query.exec((err,doc)=>{
       if(err) throw Error;

@@ -7,6 +7,8 @@ const { matchedData, sanitize } = require('express-validator/filter');
 const Menu = require('../models/menu');
 const Item = require('../models/item');
 
+var ObjectId = require('mongoose').Types.ObjectId;
+
 router.get('/',(req,res)=>{
   // check to see if logged in, if not, redirect to login
   if(req.user){
@@ -86,11 +88,44 @@ router.get('/create-item',(req,res)=>{
 router.get('/items',(req,res)=>{
   Item.getAllItems({},(err,allItems)=>{
     if(err) throw err;
+    // need separate by heading before sending to view ?
     res.render('items-view-all',{
       items: allItems
     });
   });
+});
 
+router.get('/items/:id',(req,res)=>{
+  Item.getItemById(req.params.id,(err,doc)=>{
+    if(err) throw err;
+    console.log(doc);
+    res.render('item-detail',{
+      item: doc
+    });
+  });
+});
+
+// oh god this is bad routing
+// how will my app know if this is for a heading or item?
+router.get('/items/api/:heading_id',(req,res)=>{
+  Item.getItemsByHeadingId({
+    "menu._id": ObjectId(req.params.heading_id)
+  },(err,items)=>{
+    if(err) throw err;
+    res.json(items);
+  });
+});
+
+router.delete('/items/headings/:id',(req,res)=>{
+  Menu.deleteHeading({
+    _id: req.params.id
+  },(err,heading)=>{
+    if(err) throw err;
+    // change the HTTP method
+    //req.method = 'GET';
+    // res.redirect(303,'/menus');
+    // res.json({message: 'Heading deleted'});
+  });
 });
 
 

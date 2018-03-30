@@ -1,0 +1,10 @@
+{{#if item}}
+  <h2>{{item.name}}</h2>
+  Price: {{item.price}} <br>
+  Menu: {{item.menu.menu_heading}} <br><br>
+  <a href="/menus/items">
+    <button class="btn btn-primary btn-lg btn-block">Back to View All Items</button>
+  </a>
+{{else}}
+  <h2>Error loading item</h2>
+{{/if}}

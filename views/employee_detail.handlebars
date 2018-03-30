@@ -1,6 +1,11 @@
 {{#if emp}}
   <h2>{{title}}: {{emp.display_name}}</h2>
-  <a href="/employees/{{emp._id}}/update">Update Employee Info</a>
+  <a href="/employees/{{emp._id}}/update">
+    <button class="btn btn-primary">Update Employee Info</button>
+  </a>
+  <a href="/employees/change-availability/{{emp._id}}">
+    <button class="btn btn-primary">Update Employee Availability</button>
+  </a>
   <table class="table table-striped">
     <tbody>
       <tr>

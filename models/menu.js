@@ -19,3 +19,7 @@ module.exports.createMenuHeading = (newMenuHeading, callback)=>{
 module.exports.getAllHeadings = (queryObj,callback)=>{
   Menu.find({}).exec(callback);
 };
+
+module.exports.deleteHeading = (queryObj,cb)=>{
+  Menu.remove(queryObj).exec(cb);
+};

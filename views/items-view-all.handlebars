@@ -1,8 +1,24 @@
 <h2>view all items</h2>
 {{#if items}}
-  {{#each items}}
-    <button>{{name}}</button>
-  {{/each}}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Menu</th>
+        <th scope="col">Item</th>
+        <th scope="col">Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each items}}
+        <tr>
+          <td>{{menu.menu_heading}}</td>
+          <td>{{name}}</td>
+          <td>{{price}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
 {{else}}
   <div class="alert alert-danger">You have 0 items in your system.</div>
 {{/if}}
+<!-- <a href="/menus/items/{{_id}}"> -->
