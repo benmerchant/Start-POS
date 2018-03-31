@@ -354,10 +354,11 @@ router.get('/:id',(req,res,next)=>{
     if(err) throw Error;
     console.log('Find one Employee by ID');
     console.log(doc);
-
+    let availabilityObj = (Employee.cleanUpAvailabilityObject(doc.availability));
     res.render('employee_detail',{
       title: 'Admire your great employee',
-      emp: doc
+      emp: doc,
+      availability: availabilityObj
     });
   });
 });
@@ -414,6 +415,22 @@ router.post('/:id/update',[
   }
 });
 
+router.get('/:id/editroles',(req,res)=>{
+  // handle misformed query obj erro ObjectID cast
+  Employee.getEmployeeById(req.params.id,(err,doc)=>{
+    if(err) throw err;
+    Role.getAllRoles((err,roles)=>{
+      res.render('emp-edit-roles',{
+        emp: doc,
+        roles: roles
+      });
+    });
+  });
+});
+
+router.post('/:id/editroles',(req,res)=>{
+  res.send('handle add role post stuff here');
+});
 
 // route to delete an employee
 // note, this doesn't delete the employee, it merely changes employeed: false

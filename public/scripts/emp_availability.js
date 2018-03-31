@@ -1,6 +1,5 @@
 $(document).ready(()=>{
-  // ensure each end_time is AFTER each start_time
-
+    // enable/disable time input text boxes
   $('input.form-check-input').on('change',function(){
     const $checkBoxElem = this;
     if($checkBoxElem.checked){ // if the box is checked after  we click it
@@ -24,8 +23,17 @@ $(document).ready(()=>{
         .attr('type','text')
         .val('off work');
     }
-    // just wasted 35 minutes because i was using strings instead of booleans
   });
+  // ensure each end_time is AFTER each start_time
+  // this works for checkboxes but not input text boxes??
+  // $('input.end_input').on('focusout',()=>{
+  //   const $thisInputName = this;
+  //   console.log($thisInputName);
+  // });
+
+
+
+
   // fill all boxes if OPEN AVAILABILITY checked
   $('input#avail-check').on('change',()=>{
     if(this.checked){ // if open Availability

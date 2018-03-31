@@ -38,7 +38,7 @@
           </td>
           <td class="input-cell">
             <div class="form-group ">
-              <input class="form-control start-input" name="{{@key}}_start"
+              <input class="form-control start-input" name="{{@key}}_start" id="{{@key}}_start"
                 {{#if this.available}}
                   type="time"
                   value="{{this.start_time}}"
@@ -52,7 +52,7 @@
           </td>
           <td class="input-cell">
             <div class="form-group ">
-              <input class="form-control end-input" name="{{@key}}_end"
+              <input class="form-control end-input" name="{{@key}}_end" id="{{@key}}_end"
                 {{#if this.available}}
                   type="time"
                   value="{{this.end_time}}"

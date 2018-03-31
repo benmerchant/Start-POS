@@ -131,3 +131,16 @@ module.exports.updateEmployee = (id,updateObj,cb)=>{
     cb
   );
 };
+
+module.exports.cleanUpAvailabilityObject = (availObjIn)=>{
+  let days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+  let newAvailabilityObject = {};
+  for(let prop in availObjIn){
+    if(days.includes(prop)){
+      newAvailabilityObject[prop] = availObjIn[prop];
+    }
+  }
+  // console.log('check in model');
+  // console.log(newAvailabilityObject);
+  return(newAvailabilityObject);
+};

@@ -1,0 +1,46 @@
+{{#if emp}}
+{{#if roles}}
+  <h2>Edit Roles for {{emp.display_name}}</h2>
+  <a href="/employees/{{emp._id}}">
+    <button class="btn btn-primary">Back to Employee Detail Page</button>
+  </a>
+  <hr>
+  <h4>Current Roles</h4>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Role</th>
+        <th>Pay Rate</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each emp.roles}}
+        <tr>
+          <td>{{this.name}}</td>
+          <td>{{this.rate_of_pay}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <hr>
+  <form class="" action="" method="post">
+    {{#each roles}}
+
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="roles" id="{{this.name}}" value="{{this._id}}">
+      <label class="form-check-label" for="{{this.name}}">
+        {{this.name}}
+      </label>
+      <input type="text" name="" value="{{this.base_pay}}">
+    </div>
+
+
+    {{/each}}
+    <button type="submit" class="btn btn-success">Add New Role</button>
+  </form>
+    {{else}}
+    <h2>error code: no_roles</h2>
+{{/if}}
+{{else}}
+<h2>error code: no_emp_obj</h2>
+{{/if}}
