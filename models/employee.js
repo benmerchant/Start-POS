@@ -144,3 +144,18 @@ module.exports.cleanUpAvailabilityObject = (availObjIn)=>{
   // console.log(newAvailabilityObject);
   return(newAvailabilityObject);
 };
+
+module.exports.removeRoleFromEmp = (empID,roleID,cb)=>{
+  Employee.findOneAndUpdate(
+    {_id: empID},
+    {$pull: {
+      roles:{_id:roleID}
+    }},
+    {new:true},
+    cb
+  );
+};
+
+module.exports.addRolesToEmp = (emp,queryObj,cb)=>{
+
+};

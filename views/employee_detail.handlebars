@@ -58,8 +58,14 @@
       </tr>
       {{else}}
       <tr>
-        <th>This should never display</th>
-        <td>virtually impossible</td>
+        <th>No Roles:</th>
+        <td>
+          <a href="/employees/{{emp._id}}/editroles">
+            <button class="btn btn-sm btn-block btn-primary">
+              Assign {{emp.first_name}} a new role
+            </button>
+          </a>
+        </td>
       </tr>
       {{/if}}
       <tr>

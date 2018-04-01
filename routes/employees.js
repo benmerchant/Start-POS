@@ -428,8 +428,28 @@ router.get('/:id/editroles',(req,res)=>{
   });
 });
 
-router.post('/:id/editroles',(req,res)=>{
-  res.send('handle add role post stuff here');
+router.put('/api/:id/editroles',(req,res)=>{
+  console.log('emp route request params:');
+  console.log(req.params);
+  console.log('emp route request body:');
+  console.log(req.body);
+  console.log('emp route request query:');
+  console.log(req.query);
+
+
+
+
+  res.send('AJAX SUCCESS');
+});
+
+router.put('/api/:empid/removerole/:roleid',(req,res)=>{
+  const empID = req.params.empid;
+  const roleID = req.params.roleid;
+  Employee.removeRoleFromEmp(empID,roleID,(err,doc)=>{
+    if(err) throw err;
+    res.send('successful (FROM SERVER)');
+  });
+
 });
 
 // route to delete an employee
