@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
 var Archived_employeeSchema = mongoose.Schema({
-  _id: { // login_number from Employee schema
+  login_number: { // login_number from Employee schema
     type: Number,
     required: true
   },
@@ -70,4 +70,8 @@ var Archived_employee = module.exports = mongoose.model('Archived_employee', Arc
 
 module.exports.archiveEmployee = (newArchived_employee, callback)=>{
   newArchived_employee.save(callback);
+};
+
+module.exports.getAllArchived = (cb)=>{
+  Archived_employee.find({}).lean().exec(cb);
 };

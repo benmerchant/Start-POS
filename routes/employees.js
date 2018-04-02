@@ -337,6 +337,31 @@ router.get('/logout', (req, res)=>{
   res.redirect('/employees/login');
 });
 
+router.get('/deactivated',(req,res)=>{
+  Archived_employee.getAllArchived((err,docs)=>{
+    if(err) throw error;
+    // convert ugly mongoose dates to pretty format
+    docs.forEach((emp,index)=>{
+      var date = new Date(emp.hire_date);
+      var prettyDate = date.toDateString();
+      emp.hire_date = prettyDate;
+      var date = new Date(emp.final_day);
+      prettyDate = date.toDateString();
+      emp.final_day = prettyDate;
+
+      console.log(emp);
+    });
+    res.render('deactivated-emps',{
+      emps: docs
+    });
+  });
+
+});
+
+router.get('/api/deactivated/:login_number',(req,res)=>{
+  res.send('nothing');
+});
+
 
 //////////////////////////////////////////
 ///// why does logout work here but not below????
@@ -479,6 +504,8 @@ router.put('/api/:empid/removerole/:roleid',(req,res)=>{
 
 });
 
+
+
 // route to delete an employee
 // note, this doesn't delete the employee, it merely changes employeed: false
 // this way it wont show up in the Employees view
@@ -559,7 +586,6 @@ router.post('/login', // entering nonnumbers throws error? mongoose model?
     // 'req.employee' contains the autenticated user
     res.redirect('/');
   });
-
 
 
 module.exports = router;
