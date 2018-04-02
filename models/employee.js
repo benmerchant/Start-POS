@@ -156,6 +156,6 @@ module.exports.removeRoleFromEmp = (empID,roleID,cb)=>{
   );
 };
 
-module.exports.addRolesToEmp = (emp,queryObj,cb)=>{
-
-};
+// module.exports.addRolesToEmp = (emp,queryObj,cb)=>{
+//
+// };

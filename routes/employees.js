@@ -429,17 +429,44 @@ router.get('/:id/editroles',(req,res)=>{
 });
 
 router.put('/api/:id/editroles',(req,res)=>{
-  console.log('emp route request params:');
-  console.log(req.params);
-  console.log('emp route request body:');
-  console.log(req.body);
-  console.log('emp route request query:');
-  console.log(req.query);
-
-
-
-
-  res.send('AJAX SUCCESS');
+  // console.log('emp route request params:');
+  // console.log(req.params);
+  // console.log('emp route request body:');
+  // console.log(req.body);
+  // console.log('emp route request query:');
+  // console.log(req.query);
+  const empID = req.params.id;
+  var roles = []; // array of 'documents'
+  // iterate through req.query created queryObj
+  const salBoolRegEx = /sal-bool-/;
+  const payRegEx = /pay-/;
+  for(var prop in req.query){
+    if(prop.match(salBoolRegEx)){
+      // extract the name of the role
+      var role = prop.substring(9);
+      // extract the salried boolean
+      var salaried = req.query['sal-bool-'+role];
+      // extract the rate of pay for each property
+      var rate_of_pay = req.query['pay-'+role];
+      var _id = req.query['roles-'+role];
+      var objToAddToArray = {
+        _id: _id,
+        name: role,
+        salaried: salaried,
+        rate_of_pay: rate_of_pay
+      }
+      // console.log(objToAddToArray);
+      roles.push(objToAddToArray);
+    }
+  }
+  const updateObj = {
+    roles: roles
+  }
+  Employee.updateEmployee(empID,updateObj,(err,doc)=>{
+    if(err) throw error;
+    console.log(doc);
+    res.send('AJAX SUCCESS');
+  });
 });
 
 router.put('/api/:empid/removerole/:roleid',(req,res)=>{

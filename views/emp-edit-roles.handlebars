@@ -46,14 +46,14 @@
       <div class="form-group col-2">
         <input disabled class="form-control form-control-sm" type="text" name="pay-{{this.name}}" value="{{this.base_pay}}">
       </div>
-      <div class="col-5">
-        <p>
+      <div class="col-5 form-group">
           {{#if this.salaried}}
-            Salaried Position
+            <input type="hidden" name="sal-bool-{{this.name}}" value="true" disabled>
+            Annual Salary
           {{else}}
+            <input type="hidden" name="sal-bool-{{this.name}}" value="false" disabled>
             $ per hour
           {{/if}}
-        </p>
       </div>
     </div>
     {{/each}}

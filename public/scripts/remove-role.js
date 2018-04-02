@@ -36,17 +36,17 @@ $(document).ready(()=>{
       // if checked, enable the input box for price
       $(this)
         .closest('div')
-        .siblings('div.form-group')
+        .siblings('div')
         .children('input')
         .prop('disabled',false);
     } else {
       // if not checked, disable the input box
       $(this)
         .closest('div')
-        .siblings('div.form-group')
+        .siblings('div')
         .children('input')
         .prop('disabled',true);
-    }
+    } // now selects hidden fields as well
   });
   // first time trying to PUT a form with jquery.AJAX
   // above i just grabbed elements from the DOM 'sloppy'
@@ -61,9 +61,9 @@ $(document).ready(()=>{
     event.preventDefault();
 
     const $empID = $('a.empid').attr('id');
-    console.log($empID);
+    // console.log($empID);
     const $formData = $(this).serialize();
-    console.log($formData);
+    // console.log($formData);
 
     const url = 'http://127.0.0.1:3000/employees/api/'+$empID+'/editroles?'+$formData;
 
