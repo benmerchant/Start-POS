@@ -490,21 +490,22 @@ passport.use(new LocalStrategy({
   // By default, LocalStrategy expects to find credentials in parameters named
   // username and password. If your site prefers to name these fields differently,
   // options are available to change the defaults.
-  usernameField: 'login_number'
+  // usernameField: 'login_number'
   // passwordField: 'password'
+  usernameField: 'email'
 },
-  function(login_number, password, done){
+  function(email, password, done){
     // 2: working to here so far
     console.log('hey 2');
-    Employee.getEmployeeByEmployeeNumber(login_number, function(err,user){
+    Employee.getEmployeeByEmail(email, function(err,user){
       // 4: working here so far
       console.log('hey 4');
       if(err) throw err;
       // if there is no username match
       if(!user){
         // 5: working here so far
-        console.log('hey 5 - OR: username not in DB');
-        return done(null, false, {message: 'Employee number not in DB.'});
+        console.log('hey 5 - OR: email not in DB');
+        return done(null, false, {message: 'email not in DB.'});
       }
       // continue if there is an employee match
       console.log('hey 5 - OR: found employee');

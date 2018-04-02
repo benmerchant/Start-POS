@@ -1,6 +1,6 @@
 {
   "name": "startpos",
-  "version": "1.0.0",
+  "version": "0.5.0",
   "description": "A POS system designed by a former server for current servers",
   "main": "app.js",
   "scripts": {
@@ -35,7 +35,7 @@
     "passport": "*",
     "passport-http": "*",
     "passport-local": "*",
-    "async": "*" 
+    "async": "*"
   },
   "devDependencies": {
     "nodemon": "^1.15.1"

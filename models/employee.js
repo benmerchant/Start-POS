@@ -109,6 +109,10 @@ module.exports.getEmployeeByEmployeeNumber = function(login_number, callback){
   Employee.findOne(query, callback); // mongoose method
 };
 
+module.exports.getEmployeeByEmail = (email,cb)=>{
+  Employee.findOne({email:email},cb);
+};
+
 //
 module.exports.getEmployeeById = function(id, callback){
   Employee.findById(id, callback);
@@ -155,7 +159,3 @@ module.exports.removeRoleFromEmp = (empID,roleID,cb)=>{
     cb
   );
 };
-
-// module.exports.addRolesToEmp = (emp,queryObj,cb)=>{
-//
-// };
