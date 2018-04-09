@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
 var Archived_employeeSchema = mongoose.Schema({
-  login_number: { // login_number from Employee schema
+  _id: { // login_number from Employee schema
     type: Number,
     required: true
   },
@@ -74,4 +74,12 @@ module.exports.archiveEmployee = (newArchived_employee, callback)=>{
 
 module.exports.getAllArchived = (cb)=>{
   Archived_employee.find({}).lean().exec(cb);
+};
+
+module.exports.findOneByLoginNumber = (login_number,cb)=>{
+  Archived_employee.findOne({_id:login_number}).exec(cb);
+};
+
+module.exports.removeFromArchive = (login_number,cb)=>{
+  Archived_employee.remove({_id:login_number}).exec(cb);
 };

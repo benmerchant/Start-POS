@@ -14,6 +14,8 @@ const LocalStrategy = require('passport-local').Strategy;
 const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 const async = require('async');
+const cors = require('cors');
+
 
 
 mongoose.connect('mongodb://localhost/startpos');
@@ -28,6 +30,11 @@ const schedules = require('./routes/schedules');
 
 // init app
 const app = express();
+
+// enable cors
+app.use(cors({
+  origin: 'http://localhost:3000'
+}));
 
 // set the view engine
 app.set('views', path.join(__dirname, 'views')); // set the views folder

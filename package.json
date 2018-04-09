@@ -21,10 +21,12 @@
   },
   "homepage": "https://github.com/benmerchant/Start-POS#readme",
   "dependencies": {
+    "async": "*",
     "bcryptjs": "*",
     "body-parser": "*",
     "connect-flash": "*",
     "cookie-parser": "^1.4.1",
+    "cors": "^2.8.4",
     "express": "*",
     "express-handlebars": "*",
     "express-messages": "*",
@@ -34,8 +36,7 @@
     "mongoose": "*",
     "passport": "*",
     "passport-http": "*",
-    "passport-local": "*",
-    "async": "*"
+    "passport-local": "*"
   },
   "devDependencies": {
     "nodemon": "^1.15.1"

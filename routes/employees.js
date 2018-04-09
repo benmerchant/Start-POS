@@ -349,7 +349,7 @@ router.get('/deactivated',(req,res)=>{
       prettyDate = date.toDateString();
       emp.final_day = prettyDate;
 
-      console.log(emp);
+      //console.log(emp);
     });
     res.render('deactivated-emps',{
       emps: docs
@@ -358,8 +358,38 @@ router.get('/deactivated',(req,res)=>{
 
 });
 
-router.get('/api/deactivated/:login_number',(req,res)=>{
-  res.send('nothing');
+router.put('/api/reactivate/:login_number',(req,res)=>{
+  const login_number = req.params.login_number;
+  Archived_employee.findOneByLoginNumber(login_number,(err,doc)=>{
+    if(err) throw error;
+    // console.log(doc);
+    // console.log('emp to be reactivated');
+    const newEmployee = new Employee({
+      login_number: login_number,
+      email: doc.email,
+      password: 'tempPassword42',
+      pin_num: 4242,
+      first_name: doc.first_name,
+      last_name: doc.last_name,
+      gender: doc.gender,
+      ssn: doc.ssn,
+      display_name: `${doc.first_name} ${doc.last_name.substring(0,1)}`,
+      birth_date: doc.birth_date,
+      hire_date: doc.hire_date,
+      rehired: {
+        final_day: doc.final_day,
+        rehire_date: new Date()
+      },
+      employeed: true
+    });
+    Employee.createEmployee(newEmployee,(err,doc)=>{
+      if(err) throw error;
+      Archived_employee.removeFromArchive(login_number,(err,doc)=>{
+        if(err) throw error;
+        res.send('FROM SERVER: AJAX success');
+      });
+    });
+  });
 });
 
 

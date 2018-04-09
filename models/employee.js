@@ -54,7 +54,7 @@ var EmployeeSchema = mongoose.Schema({
     unique: true
   },
   hire_date: {
-    type: String,
+    type: Date,
     required: true
   }, // send with the form
   // removed final_day. doesn't make sense in the context of new design
@@ -77,7 +77,13 @@ var EmployeeSchema = mongoose.Schema({
     friday: { start_time: String, end_time: String, available: { type:Boolean, default:false} },
     saturday: { start_time: String, end_time: String, available: { type:Boolean, default:false} },
     sunday: { start_time: String, end_time: String, available: { type:Boolean, default:false} }
-  }
+  },
+  rehired: [
+    {
+      final_day: Date,
+      rehire_date: Date
+    }
+  ]
 
 });
 
