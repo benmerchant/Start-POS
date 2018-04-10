@@ -1,0 +1,32 @@
+<h2>Welcome to the first day of your new restaurant!</h2>
+<p id="info">Just a couple quick steps to get you up and running.</p>
+<div id="table-arena"></div>
+<div id="form-arena">
+  <form class="" method="post">
+    <div class="form-group zero">
+      <label for="name">First, what is the name of this restaurant?</label><br>
+      <input class="form-control" type="text" name="name" id="name">
+    </div>
+    <div class="form-group one" style="display:none;">
+      <label for="storeNum">What about the store number?</label><br>
+      <input class="form-control" type="text" name="storeNum" id="storeNum">
+    </div>
+    <div class="form-group two" style="display:none;">
+      <label for="stateTax">Does your state have sales tax? If not, don't change from zero. Hint:  Alaska, Delaware, Montana, New Hampshire, and Oregon do not have any state sales tax.</label><br>
+      <input class="form-control" type="text" name="stateTax" id="stateTax" value="0">
+    </div>
+    <div class="form-group three" style="display:none;">
+      <label for="localTax">What about your local municipality? Any taxes? If not, leave at zero.</label><br>
+      <input class="form-control" type="text" name="localTax" id="localTax" value="0">
+    </div>
+
+    <button class="btn btn-lg btn-success" id="start_store" style="display:none;">Yes! Start My New Store</button>
+  </form>
+  <button class="btn btn-lg btn-danger" id="go_back" style="display:none;">NO! Go Back! I made an error.</button>
+  <button class="btn btn-lg btn-primary" id="next">Next Step</button>
+
+</div>
+
+
+<script src="/scripts/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="/scripts/new-store.js" type="text/javascript"></script>

@@ -27,6 +27,7 @@ const employees = require('./routes/employees');
 const roles = require('./routes/roles');
 const menus = require('./routes/menus');
 const schedules = require('./routes/schedules');
+const restaurants = require('./routes/restaurants');
 
 // init app
 const app = express();
@@ -87,6 +88,7 @@ app.use('/employees', employees);
 app.use('/roles', roles);
 app.use('/menus', menus);
 app.use('/schedules', schedules);
+app.use('/restaurants', restaurants);
 
 // set the port and start the server
 app.set('port', (process.env.PORT || 3000));
