@@ -7,6 +7,9 @@ const MenuSchema = mongoose.Schema({
     required: true,
     unique: true,
     index: true
+  },
+  printer:{
+    type:String
   }
 });
 

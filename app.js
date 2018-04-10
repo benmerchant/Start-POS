@@ -28,6 +28,7 @@ const roles = require('./routes/roles');
 const menus = require('./routes/menus');
 const schedules = require('./routes/schedules');
 const restaurants = require('./routes/restaurants');
+const orders = require('./routes/orders');
 
 // init app
 const app = express();
@@ -83,12 +84,13 @@ app.use(function(req, res, next){
 });
 
 // Route files Middleware
-app.use('/', routes); // mapped to index
-app.use('/employees', employees);
-app.use('/roles', roles);
-app.use('/menus', menus);
-app.use('/schedules', schedules);
-app.use('/restaurants', restaurants);
+app.use('/',routes); // mapped to index
+app.use('/employees',employees);
+app.use('/roles',roles);
+app.use('/menus',menus);
+app.use('/schedules',schedules);
+app.use('/restaurants',restaurants);
+app.use('/orders',orders);
 
 // set the port and start the server
 app.set('port', (process.env.PORT || 3000));
