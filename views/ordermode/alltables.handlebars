@@ -1,29 +1,33 @@
 <h2 id="top">All Tables</h2>
 <hr>
-{{#if sections}}
-{{#each sections}}
-<div id="{{this.name}}">
-  <h4 class="border-primary">
-    {{this.name}}
-  </h4>
+<div id="tables">
+  {{#if sections}}
+  {{#each sections}}
+
+  <div id="{{this.name}}">
+    <h4 class="border-primary">
+      {{this.name}}
+    </h4>
 
 
-    {{#if this.tables}}
-    {{#each this.tables}}
-      {{#if this.open}}
-        <button class="btn btn-primary open-table" style="padding:5% 5%">{{this.name}}</button>
+      {{#if this.tables}}
+      {{#each this.tables}}
+        {{#if this.open}}
+          <button class="btn btn-primary open-table" style="padding:5% 5%">{{this.name}}</button>
+        {{else}}
+          <button class="btn btn-danger sat-table" style="padding:5% 5%">{{this.name}}</button>
+        {{/if}}
+
+
+
+
+      {{/each}}
       {{else}}
-        <button class="btn btn-danger sat-table" style="padding:5% 5%">{{this.name}}</button>
+        No tables in this sections
       {{/if}}
-
-
-
-
-    {{/each}}
-    {{else}}
-      No tables in this sections
-    {{/if}}
+  </div>
 </div>
+
 
 
 {{/each}}

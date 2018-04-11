@@ -71,13 +71,14 @@ module.exports.addTable = (store_id,section,table,cb)=>{
 };
 // NOT ATOMIC!!!!
 module.exports.toggleTableStatus = (section,oldSectionObject,newSectionObject,cb)=>{
-  console.log('togggggle');
+  // console.log('togggggle');
   // first remove the entire fucking section
   Restaurant.findOneAndUpdate(
     {},
     {$pull:{dining_areas:{name:section}}},
     {"safe":true,"new":true},
     function(){
+      // second replace the entire section that has only ONE change!
       Restaurant.findOneAndUpdate(
         {},
         {$push:{dining_areas:newSectionObject}},

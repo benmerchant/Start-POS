@@ -21,6 +21,8 @@ $(document).ready(function(){
       console.log('AJAX SUCCESS');
       console.log(data);
       $('div#loader').remove();
+      // reload the entire page
+      window.location.href = `/orders/newtable/${data}`;
     }).fail(()=>{
       $('h2#top').after('failure');
       $('div#loader').remove();
