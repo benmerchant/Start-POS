@@ -16,10 +16,16 @@
       Open the Store for Today
     </button>
     {{/if}}
-    <br><br>
+    <br>
+    <a href="/dashboard">
+      <button id="orderMode" class="btn btn-primary btn-lg btn-block" style="padding:5% 0">
+        Manager Dashboard
+      </button>
+    </a>
+    <br>
     {{#if report}}
     <a href="/orders">
-      <button id="orderMode" class="btn btn-primary btn-lg btn-block" style="padding:15% 0">
+      <button id="orderMode" class="btn btn-success btn-lg btn-block" style="padding:15% 0">
         Switch to Order Mode
       </button>
     </a>

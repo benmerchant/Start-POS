@@ -21,6 +21,7 @@ router.get('/dashboard',(req,res)=>{
   res.render('managerdashboard');
 });
 
+// only displayed when the restaurant is first created
 router.get('/day0',(req,res)=>{
   res.render('index0');
 });

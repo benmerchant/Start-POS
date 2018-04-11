@@ -31,13 +31,7 @@ var RestaurantSchema = mongoose.Schema({
     saturday: { start_time: String, end_time: String, open: { type:Boolean, default:false} },
     sunday: { start_time: String, end_time: String, open: { type:Boolean, default:false} }
   },
-  dining_areas: [{
-    name: {type:String},
-    tables:[{
-      name: {type:String},
-      seats: {type:Number,default:1}
-    }]
-  }]
+  dining_areas: [{name:String,tables:[]}]
 });
 
 const Restaurant = module.exports = mongoose.model('Restaurant', RestaurantSchema);
@@ -47,9 +41,50 @@ module.exports.createRestaurant = (newRestaurant,cb)=>{
 };
 
 module.exports.getRestaurant = (cb)=>{
-  Restaurant.findOne({}).exec(cb);
+  Restaurant.findOne({}).lean().exec(cb);
 };
 
 module.exports.getResturantById = (id,cb)=>{
   Restaurant.findOne({_id:id}).exec(cb);
+};
+
+module.exports.createSection = (store_id,newSectionName,cb)=>{
+  const buildSection = {"name":newSectionName,"tables":[]};
+  console.info(buildSection);
+  Restaurant.findByIdAndUpdate(
+    store_id,
+    {$push: {dining_areas:buildSection}},
+    {"safe":true, "upsert": true, "new":true},
+    cb
+  );
+};
+
+module.exports.addTable = (store_id,section,table,cb)=>{
+  console.log(section);
+
+  Restaurant.findOneAndUpdate(
+    {'dining_areas.name': section},
+    {$push:{'dining_areas.$.tables':table}},
+    {"safe":true, "upsert": true, "new":true},
+    cb
+  );
+};
+// NOT ATOMIC!!!!
+module.exports.toggleTableStatus = (section,oldSectionObject,newSectionObject,cb)=>{
+  console.log('togggggle');
+  // first remove the entire fucking section
+  Restaurant.findOneAndUpdate(
+    {},
+    {$pull:{dining_areas:{name:section}}},
+    {"safe":true,"new":true},
+    function(){
+      Restaurant.findOneAndUpdate(
+        {},
+        {$push:{dining_areas:newSectionObject}},
+        {"safe":true,"new":true},
+        cb
+      );
+    }
+  );
+
 };

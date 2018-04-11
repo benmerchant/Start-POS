@@ -7,12 +7,12 @@ var async = require('async');
 const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
 
-var Employee = require('../models/employee');
+const Employee = require('../models/employee');
 // include the roles model to get roles for create_role_form
-var Role = require('../models/role');
+const Role = require('../models/role');
 // include this model for deactivating an employee
 // maybe move this later when we clean up the routes
-var Archived_employee = require('../models/archived_employee');
+const Archived_employee = require('../models/archived_employee');
 
 
 // landing pages for all things a manager can do with employee data
@@ -517,6 +517,8 @@ router.put('/api/:id/editroles',(req,res)=>{
   const updateObj = {
     roles: roles
   }
+  // this is replacing all current roles with whichever ones we selected not updating
+  console.log(updateObj);
   Employee.updateEmployee(empID,updateObj,(err,doc)=>{
     if(err) throw error;
     console.log(doc);

@@ -16,6 +16,7 @@ const DailySalesReportSchema = new Schema({
   },
   employees:[{
     id:{type:ObjectId},
+    hours:{type:Number},
     name:{type:String},
     role:{type:String},
     pay_rate:{type:Number},

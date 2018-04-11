@@ -1,0 +1,9 @@
+<h2>Order Mode</h2>
+<!-- if there's a report: the store is open -->
+{{#if report}}
+<a href="/orders/alltables">
+  <button class="btn btn-primary btn-lg" style="padding:11% 11%">New Table</button>
+</a>
+{{else}}
+  Store isn't opened yet. Would you like to open for business? [link here]
+{{/if}}
