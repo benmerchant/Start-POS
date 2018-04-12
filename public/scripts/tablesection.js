@@ -19,7 +19,7 @@ $(document).ready(function(){
         url: 'http://127.0.0.1:3000/restaurants/newsection',
         type: 'POST',
         data: {newSection:$newSectionName},
-        beforesend: ()=>{
+        beforeSend: ()=>{
           $('div#new-section-div').prepend('<h2 id="loader">LOADING ICON</h2>');
         }
       }).done((data)=>{

@@ -22,7 +22,7 @@ $(document).ready(function(){
       console.log(data);
       $('div#loader').remove();
       // reload the entire page
-      window.location.href = `/orders/newtable/${data}`;
+      window.location.href = `/orders/mytable/${data}`;
     }).fail(()=>{
       $('h2#top').after('failure');
       $('div#loader').remove();

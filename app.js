@@ -30,6 +30,9 @@ const schedules = require('./routes/schedules');
 const restaurants = require('./routes/restaurants');
 const orders = require('./routes/orders');
 
+// reorganize into this router
+const api = require('./routes/api');
+
 // init app
 const app = express();
 
@@ -91,6 +94,7 @@ app.use('/menus',menus);
 app.use('/schedules',schedules);
 app.use('/restaurants',restaurants);
 app.use('/orders',orders);
+app.use('/api',api);
 
 // set the port and start the server
 app.set('port', (process.env.PORT || 3000));

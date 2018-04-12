@@ -1,0 +1,49 @@
+{{#if table}}
+  <h2 id="top" data-table-id="{{table._id}}">Table: {{table.table}}</h2>
+  <p>Section: {{table.section}}</p>
+  <p id="server-id" data-server-id="{{table.server_id}}">Owned By: {{table.server_name}}</p>
+  {{#if table.Orders}}
+    <div id="order-loader">LOADING ORDERS</div>
+    {{#each table.Orders}}
+      <span class="order-ids" data-order-id="{{this}}"></span>
+    {{/each}}
+    <div id="orders-arena">
+
+    </div>
+  {{else}}
+    no orders yet
+  {{/if}}
+{{else}}
+  No table exists: ERROR: 1572
+{{/if}}
+<hr>
+
+{{#if menus}}
+<div class="container" id="menu-div">
+  <div class="row">
+    <div class="col-md-3 bg-info">
+      {{#each menus}}
+        <button id="{{this._id}}" class="btn btn-primary btn-block menu-heading">
+          {{this.menu_heading}}
+        </button><br>
+        {{/each}}
+    </div>
+    <div class="col-md-9" id="item-arena">
+
+    </div>
+  </div>
+  <button class="btn" id="send">Send Order</button>
+  <div id="currentOrder">
+
+  </div>
+</div>
+
+{{else}}
+  The store has no items to sale or DB error. Not sure.
+{{/if}}
+<hr>
+<a href="/orders/alltables">
+  <button class="btn btn-lg">View All Tables - not yet implemented</button>
+</a>
+<script src="/scripts/jquery-3.3.1.min.js"></script>
+<script src="/scripts/table-order.js"></script>

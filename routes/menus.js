@@ -75,7 +75,7 @@ router.post('/create-heading',[
 
 router.get('/create-item',(req,res)=>{
   // COME BACK: check to see if logged in
-  Menu.getAllHeadings({},(err,headings)=>{
+  Menu.getAllHeadings((err,headings)=>{
     if(err) throw err;
     // console.log(headings);
     res.render('create-item-form',{
@@ -138,7 +138,7 @@ router.post('/create-item',[
   console.log(req.body);
   const errors = validationResult(req);
   if(!errors.isEmpty()){
-    Menu.getAllHeadings({},(err,headings)=>{
+    Menu.getAllHeadings((err,headings)=>{
       if(err) throw err;
       res.render('create-item-form',{
         errors: errors.array(),

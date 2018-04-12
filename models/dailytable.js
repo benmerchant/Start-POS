@@ -29,3 +29,19 @@ module.exports.startNewTable = (newTable,cb) => {
 module.exports.getTableById = (id,cb)=>{
   DailyTable.findById(id,cb);
 };
+
+module.exports.getAllTablesForUser = (userId,cb)=>{
+  DailyTable.find(
+    {server_id:userId},
+    cb
+  );
+};
+
+module.exports.addOrder = (id,orderid,cb)=>{
+  DailyTable.findByIdAndUpdate(
+    id,
+    {$push:{Orders:orderid}},
+    {"safe":true,"new":true},
+    cb
+  );
+};
